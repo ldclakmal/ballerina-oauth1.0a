@@ -1,7 +1,8 @@
 [package]
 org = "ldclakmal"
 name = "oauth1"
-version = "1.0.1"
+version = "1.0.2"
 authors = ["Chanaka Lakmal"]
 repository = "https://github.com/ldclakmal/ballerina-oauth1.0a"
 license = ["Apache-2.0"]
+keywords = ["ballerina", "oauth", "oauth1.0", "oauth1.0a", "authorization"]

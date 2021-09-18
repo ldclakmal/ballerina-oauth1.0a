@@ -1,8 +1,10 @@
 # Ballerina OAuth1.0a
 
-The `oauth1.0a` module provides a method for clients to access server resources on behalf of a resource owner (such as a different client or an end-user) as specified in the <a target="_blank" href="https://datatracker.ietf.org/doc/html/rfc5849">RFC 5849</a>.  It also provides a process for end-users to authorize third-party access to their server resources without sharing their credentials (typically, a username and password pair), using user-agent redirections.
+Ballerina OAuth1.0a is an <a target="_blank" href="https://datatracker.ietf.org/doc/html/rfc5849">RFC 5849</a> standards-compliant library for <a target="_blank" href="https://ballerina.io/">Ballerina</a>.
 
-The Ballerina `oauth1.0a` module facilitates auth providers that are to be used by the clients and listeners of different protocol connectors.
+This module provides a method for clients to access server resources on behalf of a resource owner (such as a different client or an end-user) as specified in the <a target="_blank" href="https://datatracker.ietf.org/doc/html/rfc5849">RFC 5849</a>.  It also provides a process for end-users to authorize third-party access to their server resources without sharing their credentials (typically, a username and password pair), using user-agent redirections.
+
+This module facilitates auth providers that are to be used by the clients and listeners of different protocol connectors.
 
 ## Compatibility
 |                    | Version                     |
