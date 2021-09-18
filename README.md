@@ -17,7 +17,7 @@ import ballerina/io;
 import ldclakmal/oauth1;
 
 public function main() returns error? {
-    oauth1:ClientOAuthHandler handler = new({
+    oauth1:ClientOAuthHandler oauthHandler = new({
         consumerKey: "dpf43f3p2l4k3l03",
         consumerSecret: "kd94hf93k423kf44",
         accessToken: "hh5s93j4hdidpola",
@@ -25,7 +25,7 @@ public function main() returns error? {
         realm: "Photos",
         nonce: "7d8f3e4a"
     });
-    map<string|string[]> securityHeaders = check handler.getSecurityHeaders("GET", 
+    map<string|string[]> securityHeaders = check oauthHandler.getSecurityHeaders("GET", 
         "https://photos.example.net/request?type=jpg&maxsize=10mb");
     final http:Client clientEP = check new("https://photos.example.net");
     json payload = check clientEP->get("/request?type=jpg&maxsize=10mb", securityHeaders);
