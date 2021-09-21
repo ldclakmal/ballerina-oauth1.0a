@@ -13,7 +13,7 @@ isolated function buildOAuthValue(OAuthConfig config, string httpMethod, string 
     }
     int timeInSeconds = time:utcNow()[0];
     string timestamp = timeInSeconds.toString();
-    map<string> params = check buildProtocolParams(config.consumerKey, config.accessToken, nonce, timestamp);
+    map<string> params = check buildProtocolParams(config.signatureMethod, config.consumerKey, config.accessToken, nonce, timestamp);
     string requestUrl = url;
     if url.includes("?") {
         string[] urlParts = regex:split(url, "\\?");
@@ -23,7 +23,7 @@ isolated function buildOAuthValue(OAuthConfig config, string httpMethod, string 
     }
     string normalizedParams = normalizeParams(params);
     string baseString = check buildBaseString(httpMethod, requestUrl, normalizedParams);
-    string signature = check generateSignature(baseString, config.consumerSecret, config.accessTokenSecret);
+    string signature = check generateSignature(config.signatureMethod, baseString, config.consumerSecret, config.accessTokenSecret);
     string encodedSignature = check url:encode(signature, UTF_8);
     string encodedaccessToken = check url:encode(config.accessToken, UTF_8);
 
@@ -36,18 +36,18 @@ isolated function buildOAuthValue(OAuthConfig config, string httpMethod, string 
             "oauth_signature=\"" + encodedSignature + "\"," + 
             "oauth_timestamp=\"" + timestamp + "\"," + 
             "oauth_nonce=\"" + nonce + "\"," + 
-            "oauth_signature_method=\"HMAC-SHA1\"," + 
+            "oauth_signature_method=\"" + config.signatureMethod + "\"," + 
             "oauth_version=\"1.0\"";
     return value;
 }
 
-isolated function buildProtocolParams(string consumerKey, string accessToken, string nonce, string timestamp) returns map<string>|error {
+isolated function buildProtocolParams(string signatureMethod, string consumerKey, string accessToken, string nonce, string timestamp) returns map<string>|error {
     map<string> protocolParams = {
         "oauth_consumer_key": consumerKey, 
         "oauth_token": accessToken, 
         "oauth_timestamp": timestamp, 
         "oauth_nonce": nonce, 
-        "oauth_signature_method": "HMAC-SHA1", 
+        "oauth_signature_method": signatureMethod, 
         "oauth_version": "1.0"
     };
     return protocolParams;
@@ -78,10 +78,18 @@ isolated function buildBaseString(string httpMethod, string url, string normaliz
     return httpMethod + "&" + encodedUrl + "&" + encodedParams;
 }
 
-isolated function generateSignature(string baseString, string consumerSecret, string accessTokenSecret) returns string|error {
+isolated function generateSignature(string signatureMethod, string baseString, string consumerSecret, string accessTokenSecret) returns string|error {
     string encodedConsumerSecret = check url:encode(consumerSecret, UTF_8);
     string encodedAccessTokenSecret = check url:encode(accessTokenSecret, UTF_8);
     string 'key = encodedConsumerSecret + "&" + encodedAccessTokenSecret;
-    byte[] hmac = check crypto:hmacSha1(baseString.toBytes(), 'key.toBytes());
-    return hmac.toBase64();
+    if signatureMethod is HMAC_SHA1 {
+        byte[] hmac = check crypto:hmacSha1(baseString.toBytes(), 'key.toBytes());
+        return hmac.toBase64();
+    } else if signatureMethod is HMAC_SHA256 {
+        byte[] hmac = check crypto:hmacSha256(baseString.toBytes(), 'key.toBytes());
+        return hmac.toBase64();
+    } else {
+        byte[] hmac = check crypto:hmacSha512(baseString.toBytes(), 'key.toBytes());
+        return hmac.toBase64();
+    }
 }
