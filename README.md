@@ -20,7 +20,7 @@ import ldclakmal/oauth1;
 
 public function main() returns error? {
     oauth1:ClientOAuthHandler oauthHandler = new({
-        signatureMethod: HMAC_SHA1,
+        signatureMethod: oauth1:HMAC_SHA1,
         consumerKey: "dpf43f3p2l4k3l03",
         consumerSecret: "kd94hf93k423kf44",
         accessToken: "hh5s93j4hdidpola",
