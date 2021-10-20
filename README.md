@@ -7,9 +7,9 @@ This module provides a method for clients to access server resources on behalf o
 This module facilitates auth providers that are to be used by the clients and listeners of different protocol connectors.
 
 ## Compatibility
-|                    | Version                     |
-|:------------------:|:---------------------------:|
-| Ballerina Language | Swan Lake Beta 2 (or later) |
+|                    | Version          |
+|:------------------:|:----------------:|
+| Ballerina Language | Swan Lake Beta 3 |
 
 ## Examples
 
