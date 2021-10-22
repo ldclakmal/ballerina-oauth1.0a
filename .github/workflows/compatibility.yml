@@ -1,0 +1,18 @@
+name: Check Compatibility
+
+on:
+  schedule:
+    - cron: '30 0,6,12 * * *' # Run daily at 6:00AM, 12:00Noon, 6:00PM IST (12:30AM, 6.30AM, 12.30PM UTC)
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Check Compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Pull Package
+        uses: ballerina-platform/ballerina-action/@master
+        with:
+          args:
+            pull ldclakmal/oauth1
