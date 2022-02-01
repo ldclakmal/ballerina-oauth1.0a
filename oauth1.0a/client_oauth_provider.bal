@@ -39,7 +39,7 @@ isolated class ClientOAuthProvider {
 
     isolated function generateToken(string httpMethod, string url) returns string|error {
         string|error authToken = buildOAuthValue(self.config, httpMethod, url);
-        if (authToken is string) {
+        if authToken is string {
             return authToken;
         } else {
             return error("Failed to generate OAuth1.0a token.", authToken);

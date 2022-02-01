@@ -9,7 +9,7 @@ This module facilitates auth providers that are to be used by the clients and li
 ## Compatibility
 |                    | Version          |
 |:------------------:|:----------------:|
-| Ballerina Language | Swan Lake Beta 3 |
+| Ballerina Language | Swan Lake GA     |
 
 ## Examples
 

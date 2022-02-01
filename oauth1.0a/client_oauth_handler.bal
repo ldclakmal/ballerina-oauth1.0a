@@ -14,7 +14,7 @@ public isolated client class ClientOAuthHandler {
     # + return - The updated headers map or else an error
     public isolated function getSecurityHeaders(string httpMethod, string url) returns map<string|string[]>|error {
         string|error result = self.provider.generateToken(httpMethod, url);
-        if (result is string) {
+        if result is string {
             map<string|string[]> headers = {};
             headers["Authorization"] = result;
             return headers;
